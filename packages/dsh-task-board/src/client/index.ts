@@ -36,7 +36,6 @@ import { TaskBoardSettingsCard, TaskBoardSettingsCardController, type TaskBoardS
 import { en, zh, setRuntimeTranslate, type TaskBoardKey } from './locales.ts'
 import { HttpTaskBoardHostTransport } from './host-api.ts'
 import { startPendingVerification } from './pending-verify.ts'
-import { reportDailyHeartbeat } from './telemetry.ts'
 import { installPluginCard } from './plugin-card-seat.ts'
 import { createServedEntryForm } from './settings-entry-form.ts'
 import { TaskBoardClientService } from './service.ts'
@@ -149,10 +148,6 @@ export const inject = ['slots', 'sessions', 'workspaces', 'connection', 'configF
  * @param ctx - client root context (services: sessions, workspaces).
  */
 export function apply(ctx: ClientContext): void {
-  // Anonymous install heartbeat (docs/telemetry.md): one beat per browser per
-  // UTC day, package name only, silent failure.
-  reportDailyHeartbeat([{ name: '@linxin666/dsh-client-ui-task-board' }])
-
   // A duplicated client injection (module factory executed twice in one page
   // lifetime) would otherwise mount a second sidebar entry and board view.
   // First application wins; later calls become no-ops (see apply-guard.ts).
